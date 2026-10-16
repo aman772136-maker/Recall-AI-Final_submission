@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "skills": {
+    "ios-design": {
+      "source": "uizze.sh",
+      "sourceUrl": "https://uizze.sh/",
+      "sourceType": "well-known",
+      "computedHash": "6b92ffbe225bdd877e1245e843c5b79f1e37f7ab40d3f802937044f6aee29d20",
+      "wellKnownDigest": "sha256:c054f593fefc971788a3e0489c30f7fb5508b07c55b2d06ad14b3a9a99a892f0"
+    },
+    "ui-taste": {
+      "source": "uizze.sh",
+      "sourceUrl": "https://uizze.sh/",
+      "sourceType": "well-known",
+      "computedHash": "9b73951ae54b7d1eb81e69bb2f47d1622b3813bbefbd6c0aaa36dfcf938f1f27",
+      "wellKnownDigest": "sha256:f02f2e84c28514076aca3ff616700b6c378b1b64339d8280ea011c26e2b3e07e"
+    }
+  }
+}

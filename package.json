@@ -1,0 +1,22 @@
+{
+  "name": "recallai",
+  "private": true,
+  "version": "0.1.0",
+  "description": "RecallAI — a persistent AI study companion with graph-backed memory.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @recallai/web",
+    "dev:api": "npm run dev --workspace @recallai/api",
+    "start:api": "npm run start --workspace @recallai/api",
+    "migrate": "npm run migrate --workspace @recallai/api",
+    "verify": "node scripts/verify.mjs typecheck",
+    "build": "node scripts/verify.mjs build",
+    "lint": "node scripts/verify.mjs lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

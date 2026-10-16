@@ -1,0 +1,311 @@
+/* ============================================================
+   RecallAI — design tokens
+   Visual language carried over from the Fastshot hero:
+   dark stage, glass panels, warm accent.
+   Type: Instrument Serif for display titles, Bricolage Grotesque for body.
+   Light mode is defined here only; no component reads raw colors.
+   ============================================================ */
+
+:root {
+  --font-text: "Bricolage Grotesque", Inter, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+
+  /* Brand accent — warm, carried from the reference send button */
+  --accent-100: #fbbc94;
+  --accent-200: #f49d70;
+  --accent-300: #e88654;
+  --accent-grad: linear-gradient(163deg, #fbbc94 0%, #f49d70 46%, #e88654 100%);
+  --accent-ring: #f8b285;
+  --accent-shadow: rgba(210, 110, 60, 0.34);
+  /* Accent used as text or an icon stroke, not as a fill. Kept separate so
+     it can darken on light surfaces without touching the send button. */
+  --accent-text: #f6ad83;
+
+  /* Muted toolbar controls, carried from the reference composer. */
+  --control-text: #98999c;
+  --control-text-hover: #d6d6d9;
+  --control-icon: #a9aaad;
+  --control-icon-hover: #ffffff;
+
+  /* Mark */
+  --mark-ring: #9c86ce;
+  --mark-core: #ffffff;
+  --mark-pupil: #151519;
+
+  /* Radii */
+  --r-card: 26px;
+  --r-chip: 9px;
+  --r-btn: 12px;
+  --r-sm: 11px;
+  --r-input: 18px;
+
+  /* Layout */
+  --sidebar-w: 268px;
+  --context-w: 320px;
+  --measure: 74ch;
+
+  /* Motion */
+  --e-primary: cubic-bezier(0.16, 1, 0.3, 1);
+  --e-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 140ms;
+  --t-mid: 220ms;
+}
+
+/* ---------- Dark (default) ---------- */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page: #0a0d12;
+  --stage-fallback: linear-gradient(
+    180deg,
+    #1c2740 0%,
+    #2b3550 12%,
+    #4a4760 22%,
+    #7d6367 30%,
+    #a87a63 36%,
+    #c29270 41%,
+    #9a8073 46%,
+    #5e6069 52%,
+    #3a4152 60%,
+    #252b39 70%,
+    #171b26 82%,
+    #0e1119 100%
+  );
+  --stage-veil: 0.66;
+  --stage-scrim: radial-gradient(
+    120% 80% at 50% 0%,
+    rgba(10, 13, 18, 0.04) 0%,
+    rgba(10, 13, 18, 0.5) 100%
+  );
+
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.74);
+  --text-3: rgba(255, 255, 255, 0.52);
+  --text-4: #8b8c8e;
+
+  --glass: rgba(41, 41, 43, 0.955);
+  --glass-2: rgba(255, 255, 255, 0.055);
+  --glass-3: rgba(255, 255, 255, 0.09);
+  --hairline: rgba(214, 228, 255, 0.14);
+  --hairline-2: rgba(255, 255, 255, 0.08);
+
+  --chip-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.088) 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.038) 100%
+  );
+  --chip-bg-hover: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.07)
+  );
+  --chip-text: #909093;
+  --chip-text-hover: #c8c8cb;
+  --chip-border: rgba(255, 255, 255, 0.05);
+
+  --btn-solid: linear-gradient(180deg, #3d3d3f 0%, #1d1d20 100%);
+  --btn-ghost: rgba(255, 255, 255, 0.1);
+  --btn-ghost-border: rgba(255, 255, 255, 0.14);
+
+  --bubble-user: rgba(255, 255, 255, 0.1);
+  --code-bg: rgba(255, 255, 255, 0.06);
+  --code-border: rgba(255, 255, 255, 0.09);
+
+  --shadow-card: inset 0 0 0 1px var(--hairline), 0 22px 60px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 18px 48px rgba(0, 0, 0, 0.42);
+  --shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 14px rgba(0, 0, 0, 0.28);
+}
+
+/* ---------- Light (token swap only) ---------- */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --page: #eef0f3;
+  --stage-fallback:
+    linear-gradient(180deg, #dfe6ef 0%, #e8e2dd 40%, #f3d9c2 62%, #dfe4ea 100%);
+  --stage-veil: 0.86;
+  --stage-scrim: linear-gradient(
+    180deg,
+    rgba(238, 240, 243, 0.55) 0%,
+    rgba(238, 240, 243, 0.92) 100%
+  );
+
+  --text: #14161a;
+  --text-2: rgba(20, 22, 26, 0.72);
+  --text-3: rgba(20, 22, 26, 0.54);
+  --text-4: #6b6d70;
+
+  --glass: rgba(255, 255, 255, 0.78);
+  --glass-2: rgba(20, 22, 26, 0.04);
+  --glass-3: rgba(20, 22, 26, 0.07);
+  --hairline: rgba(20, 22, 26, 0.1);
+  --hairline-2: rgba(20, 22, 26, 0.08);
+
+  --chip-bg: linear-gradient(
+    180deg,
+    rgba(20, 22, 26, 0.045) 0%,
+    rgba(20, 22, 26, 0.028) 45%,
+    rgba(20, 22, 26, 0.02) 100%
+  );
+  --chip-bg-hover: linear-gradient(
+    180deg,
+    rgba(20, 22, 26, 0.08),
+    rgba(20, 22, 26, 0.04)
+  );
+  --chip-text: #6b6d70;
+  --chip-text-hover: #14161a;
+  --chip-border: rgba(20, 22, 26, 0.07);
+
+  /* Darkened so text and icons keep contrast on a white panel. */
+  --accent-text: #b8551f;
+  --control-text: #6b6d70;
+  --control-text-hover: #14161a;
+  --control-icon: #76787b;
+  --control-icon-hover: #14161a;
+
+  --btn-solid: linear-gradient(180deg, #ffffff 0%, #e9ebef 100%);
+  --btn-ghost: rgba(20, 22, 26, 0.05);
+  --btn-ghost-border: rgba(20, 22, 26, 0.1);
+
+  --bubble-user: rgba(20, 22, 26, 0.06);
+  --code-bg: rgba(20, 22, 26, 0.045);
+  --code-border: rgba(20, 22, 26, 0.09);
+
+  --shadow-card: inset 0 0 0 1px var(--hairline), 0 22px 60px rgba(20, 22, 26, 0.1);
+  --shadow-pop: 0 18px 48px rgba(20, 22, 26, 0.16);
+  --shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 2px 14px rgba(20, 22, 26, 0.1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background: var(--page);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent-200);
+  color: #1a1005;
+}
+
+/* Scrollbars — thin, low contrast */
+.scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-3) transparent;
+}
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--glass-3);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ============================================================
+   Stage (background video, per the reference)
+   ============================================================ */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--page);
+  /* Dawn lake-and-mountains fallback: the palette survives if the video
+     is blocked, still decoding, or the OS reduced motion removed it. */
+  background-image: var(--stage-fallback);
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+.stage-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: var(--stage-veil);
+  transition: opacity var(--t-mid) ease;
+}
+.stage-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--stage-scrim);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-video {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
