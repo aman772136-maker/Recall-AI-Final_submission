@@ -136,7 +136,113 @@ graph TB
 
 ---
 
-## 🔄 4. End-to-End Data Flow & Sequence Diagram
+## 🧠 4. Graph Memory Architecture & Knowledge Graph Schema
+
+RecallAI couples a local LLM with an **OpenCypher knowledge graph** powered by [FalkorDB](https://www.falkordb.com/). Rather than treating memories as isolated vector embeddings, RecallAI represents learning history as an interconnected academic concept graph with directional dependencies and pedagogical metadata.
+
+```mermaid
+flowchart TD
+    subgraph UI ["Client Layer (Next.js 15)"]
+        UserPrompt["💬 Student Query"]
+        ContextBadge["🏷️ UI Context Pill<br/><i>'Anchored in your previous mistake on Net Force'</i>"]
+    end
+
+    subgraph API ["RecallAI Backend (Express)"]
+        Extractor["🔍 Concept & Keyword Extractor<br/><i>Canonical Topic Matching</i>"]
+        Router{"FalkorDB<br/>Connected?"}
+        Fallback["💾 Keyword / Postgres Store<br/><i>(In-memory Fallback)</i>"]
+        PromptAssembler["📝 Pedagogical Prompt Builder<br/><i>Injects graph nodes + edge explanations</i>"]
+        LLM["🦙 Ollama Local LLM<br/><i>Qwen 2.5 / Llama 3</i>"]
+    end
+
+    subgraph GraphDB ["Knowledge Graph (FalkorDB / OpenCypher)"]
+        Student["👤 :Student Node"]
+        Memory["🧠 :Memory Node<br/><i>(mistake | goal | topic)</i>"]
+        TopicA["📚 :Topic A<br/><i>(e.g., Net Force)</i>"]
+        TopicB["📚 :Topic B<br/><i>(e.g., Inclined Plane)</i>"]
+        
+        Student -->|:HAS_MEMORY| Memory
+        Memory -->|:RECURRING_MISTAKE_IN| TopicA
+        TopicA -->|:CONNECTED_TO / :PREREQUISITE_OF<br/><i>reason: 'Normal force resolves parallel...'</i>| TopicB
+    end
+
+    %% Data Flow
+    UserPrompt --> Extractor
+    Extractor --> Router
+    Router -- Yes --> GraphDB
+    Router -- No --> Fallback
+    
+    %% Multi-Hop Retrieval
+    GraphDB -->|1-Hop Direct Match &<br/>2-Hop Semantic Traversal| PromptAssembler
+    Fallback --> PromptAssembler
+    PromptAssembler --> LLM
+    LLM --> ContextBadge
+    LLM --> UserPrompt
+```
+
+### Knowledge Graph Schema (Entities & Relationships)
+
+```mermaid
+erDiagram
+    STUDENT ||--o{ MEMORY : "HAS_MEMORY"
+    MEMORY }o--|| TOPIC : "RELATES_TO"
+    MEMORY }o--|| TOPIC : "RECURRING_MISTAKE_IN"
+    MEMORY }o--|| TOPIC : "TARGETS_GOAL"
+    TOPIC ||--o{ TOPIC : "PREREQUISITE_OF"
+    TOPIC ||--o{ TOPIC : "CONNECTED_TO"
+
+    STUDENT {
+        string id PK "userId / default_student"
+    }
+
+    MEMORY {
+        string id PK "mem_*"
+        string type "mistake | goal | topic"
+        string label "Display title"
+        string summary "Pedagogical content"
+        string source "learned | user"
+        timestamp updatedAt
+    }
+
+    TOPIC {
+        string name PK "Canonical Concept (e.g. Net Force)"
+        string category "Physics | Math | CS"
+    }
+```
+
+### How Graph Retrieval Works (3-Stage Traversal)
+
+When a student asks a question (e.g., *"How do I calculate acceleration down an inclined ramp?"*):
+
+1. **Topic Extraction**:
+   - The query is parsed against canonical concept dictionaries and tokenized keywords, identifying `Topic: Inclined Plane`.
+
+2. **Multi-Hop OpenCypher Traversal**:
+   - **Direct Matches (1-Hop)**:
+     ```cypher
+     MATCH (m:Memory)
+     WHERE (m.userId = $userId OR m.userId IS NULL OR m.userId = '')
+     OPTIONAL MATCH (m)-[r:RELATES_TO|TARGETS_GOAL|RECURRING_MISTAKE_IN]->(t:Topic)
+     WHERE (size($keywords) > 0 AND any(kw IN $keywords WHERE toLower(m.summary) CONTAINS kw))
+        OR (size($topics) > 0 AND t IS NOT NULL AND toLower(t.name) IN $topics)
+     RETURN m, t
+     ```
+   - **Connected Concept Matches (2-Hop)**:
+     Traverses concept prerequisites and connections (e.g., `Inclined Plane` $\rightarrow$ `Net Force`):
+     ```cypher
+     MATCH (m:Memory)-[r]->(t1:Topic)-[c:CONNECTED_TO|PREREQUISITE_OF]-(t2:Topic)
+     WHERE toLower(t2.name) IN $topics AND NOT toLower(t1.name) IN $topics
+     RETURN m.id, m.type, m.summary, t1.name, t2.name, c.reason
+     ```
+
+3. **Pedagogical Explanation & Synthesis**:
+   - Edge metadata (`c.reason`) is automatically translated into natural language:
+     > *"Connected your recurring mistake on Net Force: Inclined plane acceleration requires calculating net force along the axis parallel to the ramp."*
+   - Injected directly into the Ollama system prompt to proactively address misconceptions before the student repeats them.
+
+---
+
+## 🔄 5. End-to-End Data Flow & Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -180,7 +286,7 @@ sequenceDiagram
 
 ---
 
-## 💡 5. Why RecallAI Wins: Technical Innovations
+## 💡 6. Why RecallAI Wins: Technical Innovations
 
 ### 1. GraphRAG vs. Flat Vector Search
 Traditional RAG systems rely on flat vector embeddings (cosine distance). They fail when navigating hierarchical academic concepts. 
@@ -199,7 +305,7 @@ Traditional RAG systems rely on flat vector embeddings (cosine distance). They f
 
 ---
 
-## 🗄️ 6. Database Schema Design (PostgreSQL / Relational)
+## 🗄️ 7. Database Schema Design (PostgreSQL / Relational)
 
 ```sql
 -- Conversations & Messages
@@ -257,7 +363,7 @@ CREATE TABLE message_memories (
 
 ---
 
-## ⚙️ 7. Environment Configuration Reference
+## ⚙️ 8. Environment Configuration Reference
 
 Create `apps/api/.env` if customizing defaults:
 
@@ -275,7 +381,7 @@ Create `apps/api/.env` if customizing defaults:
 
 ---
 
-## 🧪 8. Automated Testing & Verification
+## 🧪 9. Automated Testing & Verification
 
 RecallAI features an automated end-to-end test suite testing graph extraction, multi-session memory recall, and live Qwen inference:
 
