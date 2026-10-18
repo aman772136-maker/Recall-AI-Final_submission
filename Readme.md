@@ -61,7 +61,7 @@ Test RecallAI’s core innovation — **cross-conversation memory continuity and
 
 1. **Turn 1 (Log Identity & Recurring Weak Spot):**
    * Paste this into the chat composer:
-     > *"My name is Rishu. I am a BTech CSE student and I keep struggling with Eigenvalue calculations. Remember this."*
+     > *"My name is Aman. I am a BTech CSE student and I keep struggling with Eigenvalue calculations. Remember this."*
    * 👉 **Observe:** The right-hand **Study Context** panel immediately captures and surfaces the memory: `[MISTAKE] Recurring mistake: struggling with Eigenvalue calculations`.
 
 2. **Turn 2 (Test Cross-Session Continuity in a New Conversation):**
