@@ -10,7 +10,7 @@
 
 ---
 
-## ⚡ 1. Judge Quickstart (Under 2 Minutes)
+## ⚡ 1. Judge Quickstart
 
 RecallAI is engineered with **zero-configuration resilient fallbacks**: it can run completely locally with zero external API keys or cloud dependencies.
 
@@ -55,7 +55,7 @@ curl http://localhost:4000/health
 
 ---
 
-## 🎯 2. Quick Demo Script for Evaluators (60 Seconds)
+## 🎯 2. Quick Demo Script 
 
 Test RecallAI’s core innovation — **cross-conversation memory continuity and graph-backed context**:
 
